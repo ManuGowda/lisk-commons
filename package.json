@@ -1,0 +1,25 @@
+{
+  "name": "lisk-schema",
+  "version": "1.0.0",
+  "description": "Lisk blockchain application api schema",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManuGowda/lisk-schema.git"
+  },
+  "keywords": [
+    "Lisk",
+    "API",
+    "Schema",
+    "Blockchain"
+  ],
+  "author": "Manu Gowda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ManuGowda/lisk-schema/issues"
+  },
+  "homepage": "https://github.com/ManuGowda/lisk-schema#readme"
+}
