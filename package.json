@@ -1,14 +1,14 @@
 {
-  "name": "lisk-schema",
-  "version": "1.1.0",
-  "description": "Lisk blockchain application api schema",
+  "name": "lisk-commons",
+  "version": "1.1.1",
+  "description": "Lisk blockchain application common utilities",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ManuGowda/lisk-schema.git"
+    "url": "git+https://github.com/ManuGowda/lisk-commons.git"
   },
   "keywords": [
     "Lisk",
@@ -19,9 +19,9 @@
   "author": "Manu Nelamane Siddalingegowda",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ManuGowda/lisk-schema/issues"
+    "url": "https://github.com/ManuGowda/lisk-commons/issues"
   },
-  "homepage": "https://github.com/ManuGowda/lisk-schema#readme",
+  "homepage": "https://github.com/ManuGowda/lisk-commons#readme",
   "dependencies": {
     "json-schema-ref-parser": "^6.0.2"
   }
