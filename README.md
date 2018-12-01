@@ -1,2 +1,2 @@
 # lisk-schema
-Lisk blockchain application api schema
+Lisk blockchain application common utilities
