@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/ManuGowda/lisk-schema/issues"
   },
-  "homepage": "https://github.com/ManuGowda/lisk-schema#readme"
+  "homepage": "https://github.com/ManuGowda/lisk-schema#readme",
+  "dependencies": {
+    "json-schema-ref-parser": "^6.0.2"
+  }
 }
