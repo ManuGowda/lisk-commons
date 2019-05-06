@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Lisk API Documentation",
-    "description": "# Welcome!\n\n## Access Restrictions\nThe API endpoints are by default restricted to a whitelist of IPs that can be found in `config.json` in the section [`api.access.whitelist`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L35).\nIf you want your API to be accessable by the public, you can do this by changing `api.access.public` to `true`.\nThis will allow anyone to make requests to your Lisk Core node.\nHowever some endpoints stay private, that means only a list of whitelisted IPs can successfully make API calls to that particular endpoint;\nThis includes all forging related API calls.\nBy default, only the nodes' local IP is included in the whitelist, you can change the setting in `config.json` in the section [`forging.access.whitelist`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L114).\nFor more details, see the descriptions at the respective endpoint.\n\n## Requests\nChained filter parameters are logically connected with `AND`.\n`HTTP` is the supported URL schema by default.\nTo enable `HTTPS`, please adjust the the [`ssl`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L124) section in `config.json`.\n\n## Responses\nThe general response format is JSON (`application/json`).\nThe responses for each API request have a common basic structure:\n```javascript\n{\n\t\"data\": {}, //Contains the requested data\n\t\"meta\": {}, //Contains additional metadata, e.g. the values of `limit` and `offset`\n\t\"links\": {} //Will contain links to connected API calls from here, e.g. pagination links\n}\n```\n\n## Date Formats\nMost of the timestamp parameters are in the Lisk Timestamp format, which is similar to the Unix Timestamp format.\nThe **Lisk Timestamp** is the number of seconds that have elapsed since the Lisk epoch time (2016-05-24T17:00:00.000Z), not counting leap seconds.\nThe **Lisk Epoch Time** is returned in the [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format, combined date and time: `YYYY-MM-DDThh:mm:ssZ`.\nFor details, see the descriptions and examples at the respective endpoint.\n\n## Pagination\nOne can paginate nicely through the results by providing `limit` and `offset` parameters to the requests.\n`limit` and `offset` can be found in the `meta`-object of the response of an API request.\nIf no limit and offset are provided, they are set to 10 and 0 by default, what will display the first 10 results.\n\n## List of Endpoints\nAll possible API endpoints for Lisk Core are listed below.\nClick on an endpoint to show descriptions, details and examples.\n",
+    "description": "# Welcome!\n\n## Access Restrictions\nThe API endpoints are by default restricted to a whitelist of IPs that can be found in `config.json` in the section [`api.access.whitelist`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L35).\nIf you want your API to be accessable by the public, you can do this by changing `api.access.public` to `true`.\nThis will allow anyone to make requests to your Lisk Core node.\nHowever some endpoints stay private, that means only a list of whitelisted IPs can successfully make API calls to that particular endpoint;\nThis includes all forging related API calls.\nBy default, only the nodes' local IP is included in the whitelist, you can change the setting in `config.json` in the section [`forging.access.whitelist`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L114).\nFor more details, see the descriptions at the respective endpoint.\n\n## Requests\nChained filter parameters are logically connected with `AND`.\n`HTTP` is the supported URL schema by default.\nTo enable `HTTPS`, please adjust the the [`ssl`](https://github.com/LiskHQ/lisk/blob/1.0.0/config.json#L124) section in `config.json`.\n\n## Responses\nThe general response format is JSON (`application/json`).\nThe responses for each API request have a common basic structure:\n```javascript\n{\n  \"data\": {}, //Contains the requested data\n  \"meta\": {}, //Contains additional metadata, e.g. the values of `limit` and `offset`\n  \"links\": {} //Will contain links to connected API calls from here, e.g. pagination links\n}\n```\n\n## Date Formats\nMost of the timestamp parameters are in the Lisk Timestamp format, which is similar to the Unix Timestamp format.\nThe **Lisk Timestamp** is the number of seconds that have elapsed since the Lisk epoch time (2016-05-24T17:00:00.000Z), not counting leap seconds.\nThe **Lisk Epoch Time** is returned in the [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format, combined date and time: `YYYY-MM-DDThh:mm:ssZ`.\nFor details, see the descriptions and examples at the respective endpoint.\n\n## Pagination\nOne can paginate nicely through the results by providing `limit` and `offset` parameters to the requests.\n`limit` and `offset` can be found in the `meta`-object of the response of an API request.\nIf no limit and offset are provided, they are set to 10 and 0 by default, what will display the first 10 results.\n\n## List of Endpoints\nAll possible API endpoints for Lisk Core are listed below.\nClick on an endpoint to show descriptions, details and examples.\n",
     "version": "1.0.32",
     "contact": {
       "email": "admin@lisk.io"
@@ -347,6 +347,9 @@
           },
           {
             "$ref": "#/parameters/version"
+          },
+          {
+            "$ref": "#/parameters/protocolVersion"
           },
           {
             "$ref": "#/parameters/state"
@@ -819,9 +822,6 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/offset"
-          },
-          {
             "name": "limit",
             "in": "query",
             "description": "Limit applied to results",
@@ -830,6 +830,16 @@
             "minimum": 1,
             "maximum": 101,
             "default": 10
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset value for results",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0
           }
         ],
         "responses": {
@@ -936,6 +946,12 @@
           },
           {
             "$ref": "#/parameters/height"
+          },
+          {
+            "$ref": "#/parameters/fromTimestamp"
+          },
+          {
+            "$ref": "#/parameters/toTimestamp"
           },
           {
             "$ref": "#/parameters/limit"
@@ -1302,6 +1318,15 @@
               "timestamp:desc"
             ],
             "default": "amount:asc"
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "description": "Fuzzy additional data field to query",
+            "type": "string",
+            "format": "additionalData",
+            "minLength": 1,
+            "maxLength": 64
           }
         ],
         "responses": {
@@ -1425,6 +1450,13 @@
       "description": "Lisk version of the node",
       "type": "string",
       "format": "version"
+    },
+    "protocolVersion": {
+      "name": "protocolVersion",
+      "in": "query",
+      "description": "Protocol version of the node",
+      "type": "string",
+      "format": "protocolVersion"
     },
     "state": {
       "name": "state",
@@ -1598,6 +1630,15 @@
       "description": "Ending unix timestamp",
       "type": "integer",
       "minimum": 1
+    },
+    "data": {
+      "name": "data",
+      "in": "query",
+      "description": "Additional data field to query",
+      "type": "string",
+      "format": "additionalData",
+      "minLength": 1,
+      "maxLength": 64
     }
   },
   "definitions": {
@@ -2502,6 +2543,34 @@
         }
       }
     },
+    "CommonBlock": {
+      "x-private": true,
+      "type": "object",
+      "required": [
+        "id",
+        "height",
+        "previousBlock"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "id",
+          "minLength": 1,
+          "maxLength": 20,
+          "example": "6258354802676165798"
+        },
+        "height": {
+          "type": "integer",
+          "example": 123,
+          "minimum": 1
+        },
+        "previousBlock": {
+          "type": "string",
+          "format": "id",
+          "example": "15918760246746894806"
+        }
+      }
+    },
     "ForgingStatus": {
       "type": "object",
       "required": [
@@ -2735,6 +2804,12 @@
           "format": "version",
           "description": "The version of Lisk Core that the peer node runs on."
         },
+        "protocolVersion": {
+          "type": "string",
+          "example": 1,
+          "format": "protocolVersion",
+          "description": "The protocol version of Lisk Core that the peer node runs on."
+        },
         "state": {
           "type": "integer",
           "example": 2,
@@ -2759,6 +2834,21 @@
           "example": "sYHEDBKcScaAAAYg",
           "minLength": 1,
           "description": "Unique Identifier for the peer.\nRandom string.\n"
+        }
+      }
+    },
+    "PeersList": {
+      "x-private": true,
+      "type": "object",
+      "required": [
+        "peers"
+      ],
+      "properties": {
+        "peers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Peer"
+          }
         }
       }
     },
@@ -2852,6 +2942,12 @@
           "format": "version",
           "example": "v0.8.0",
           "description": "The Lisk Core version, that the node is running on."
+        },
+        "protocolVersion": {
+          "type": "string",
+          "format": "protocolVersion",
+          "example": 1,
+          "description": "The Lisk Core protocol version, that the node is running on."
         },
         "nethash": {
           "type": "string",
@@ -2979,6 +3075,47 @@
         }
       }
     },
+    "TransactionError": {
+      "type": "object",
+      "required": [
+        "message",
+        "id",
+        "dataPath"
+      ],
+      "properties": {
+        "message": {
+          "description": "Error message",
+          "type": "string"
+        },
+        "name": {
+          "description": "Type of Error",
+          "type": "string"
+        },
+        "id": {
+          "description": "Transaction ID",
+          "type": "string",
+          "minLength": 1
+        },
+        "dataPath": {
+          "description": "Transaction field with error",
+          "type": "string"
+        },
+        "expected": {
+          "description": "Expected value",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "actual": {
+          "description": "Actual value",
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      }
+    },
     "ProcessingError": {
       "type": "object",
       "required": [
@@ -2989,6 +3126,17 @@
           "description": "Error message containing details of the error",
           "type": "string",
           "minLength": 1
+        },
+        "code": {
+          "description": "Error code containing details on status",
+          "type": "integer"
+        },
+        "errors": {
+          "description": "Array containing TransactionError objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionError"
+          }
         }
       }
     },
@@ -3163,8 +3311,7 @@
       "required": [
         "address",
         "publicKey",
-        "balance",
-        "unconfirmedBalance"
+        "balance"
       ],
       "properties": {
         "address": {
@@ -3184,11 +3331,6 @@
           "example": 1081560729258,
           "description": "The current balance of the account in Beddows."
         },
-        "unconfirmedBalance": {
-          "type": "string",
-          "example": 1081560729258,
-          "description": "The current unconfirmed balance of the account in Beddows.\nIncludes unconfirmed transactions.\n"
-        },
         "secondPublicKey": {
           "type": "string",
           "format": "publicKey",
@@ -3206,7 +3348,6 @@
         "address",
         "publicKey",
         "balance",
-        "unconfirmedBalance",
         "min",
         "lifetime",
         "members"
@@ -3228,11 +3369,6 @@
           "type": "string",
           "example": 1081560729258,
           "description": "The current balance of the account in Beddows."
-        },
-        "unconfirmedBalance": {
-          "type": "string",
-          "example": 1081560729258,
-          "description": "The current unconfirmed balance of the account in Beddows.\nIncludes unconfirmed transactions.\n"
         },
         "secondPublicKey": {
           "type": "string",
